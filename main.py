@@ -12,8 +12,10 @@ year = int(sys.argv[1])
 
 if '-hpc' in sys.argv:
     data_dir = '/home/ucfarm0/tracks'
+    output_dir = '/home/ucfarm0/Scratch/'
 else:
     data_dir = '/home/robbie/Dropbox/Data/IMV'
+    output_dir = ''
 
 # What day do you want to start?
 
@@ -69,6 +71,8 @@ valid_start_x = start_x[~np.isnan(u_field)]
 valid_start_y = start_y[~np.isnan(u_field)]
 
 valid_points = list(zip(valid_start_x, valid_start_y))
+
+np.save(f'{output_dir}test.npy', u_field)
 
 exit()
 
@@ -133,4 +137,4 @@ for day_num in trange(0, 700):
 
     if (len(valid_points) > 70_000) or (date > end_date): break
 
-np.save(f'tracks_array_{year}.npy', tracks_array)
+np.save(f'{output_dir}tracks_array_{year}.npy', tracks_array)
