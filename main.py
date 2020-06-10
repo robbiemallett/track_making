@@ -10,7 +10,10 @@ from tqdm import trange
 
 year = int(sys.argv[1])
 
-data_dir = '/home/robbie/Dropbox/Data/IMV'
+if '-hpc' in sys.argv:
+    data_dir = '/home/ucfarm0/tracks'
+else:
+    data_dir = '/home/robbie/Dropbox/Data/IMV'
 
 # What day do you want to start?
 
