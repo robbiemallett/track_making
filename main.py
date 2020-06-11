@@ -12,10 +12,12 @@ year = int(sys.argv[1])
 
 if '-hpc' in sys.argv:
     data_dir = '/home/ucfarm0/tracks'
+    grid_dir = '/home/ucfarm0/tracks/track_making/'
     output_dir = '/home/ucfarm0/Scratch/'
 else:
     data_dir = '/home/robbie/Dropbox/Data/IMV'
     output_dir = ''
+    grid_dir = ''
 
 # What day do you want to start?
 
@@ -29,8 +31,8 @@ data_17 = Dataset(f'{data_dir}/icemotion_daily_nh_25km_{year+1}0101_{year+1}1231
 
 # Get EASE_lons & EASE_lats
 
-EASE_lons = get('lon')
-EASE_lats = get('lat')
+EASE_lons = get('lon',grid_dir)
+EASE_lats = get('lat',grid_dir)
 
 EASE_xs, EASE_ys = lonlat_to_xy(EASE_lons.ravel(), EASE_lats.ravel())
 

@@ -3,9 +3,9 @@ from pyproj import Proj, transform
 import numpy as np
 import warnings
 
-def get(string):
+def get(string,grid_dir):
 
-    path_grid = f'grid.nc'
+    path_grid = f'{grid_dir}grid.nc'
 
     if string == 'lon':
         grid_data = Dataset(path_grid)
