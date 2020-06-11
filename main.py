@@ -6,6 +6,10 @@ import numpy as np
 import sys
 from tqdm import trange
 
+now = datetime.datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("Start Time =", current_time)
+
 # What year?
 
 year = int(sys.argv[1])
@@ -74,10 +78,6 @@ valid_start_y = start_y[~np.isnan(u_field)]
 
 valid_points = list(zip(valid_start_x, valid_start_y))
 
-np.save(f'{output_dir}test.npy', u_field)
-
-exit()
-
 for day_num in trange(0, 700):
 
     valid_points_x = list(zip(*valid_points))[0]
@@ -140,3 +140,7 @@ for day_num in trange(0, 700):
     if (len(valid_points) > 70_000) or (date > end_date): break
 
 np.save(f'{output_dir}tracks_array_{year}.npy', tracks_array)
+
+now = datetime.datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("End Time =", current_time)
