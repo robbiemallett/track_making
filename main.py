@@ -11,8 +11,10 @@ current_time = now.strftime("%H:%M:%S")
 print("Start Time =", current_time)
 
 # What year?
-
-year = int(sys.argv[1])
+if len(sys.argv) == 1:
+    year = 2016
+else:
+    year = int(sys.argv[1])
 
 if '-hpc' in sys.argv:
     data_dir = '/home/ucfarm0/tracks'
@@ -78,7 +80,7 @@ valid_start_y = start_y[~np.isnan(u_field)]
 
 valid_points = list(zip(valid_start_x, valid_start_y))
 
-for day_num in trange(0, 700):
+for day_num in trange(0, 300):
 
     valid_points_x = list(zip(*valid_points))[0]
     valid_points_y = list(zip(*valid_points))[1]
