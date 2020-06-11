@@ -5,6 +5,9 @@ import warnings
 
 def get(string,grid_dir):
 
+    """"Returns a 361x361 grid of lon lat values for the 25 km EASE grid.
+    These are taken from a netcdf file which is included in this repo."""
+
     path_grid = f'{grid_dir}grid.nc'
 
     if string == 'lon':
@@ -17,12 +20,19 @@ def get(string,grid_dir):
         return(lat)
 
 def xy_to_lonlat(x,y):
-    EASE_Proj = Proj(init='epsg:3408')
-    WGS_Proj = Proj(init='epsg:4326')
-    lon,lat = transform(EASE_Proj,WGS_Proj,x,y)
-    return(lon,lat)
+
+    """Converts EASE grid coordinates to WGS 84. Can take a single point or two lists"""
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        EASE_Proj = Proj(init='epsg:3408')
+        WGS_Proj = Proj(init='epsg:4326')
+        lon,lat = transform(EASE_Proj,WGS_Proj,x,y)
+        return(lon,lat)
 
 def lonlat_to_xy(lon,lat):
+
+    """Converts WGS 84 coords to EASE grid. Can take a single point or two lists"""
+
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         EASE_Proj = Proj(init='epsg:3408')
@@ -32,7 +42,8 @@ def lonlat_to_xy(lon,lat):
 
 
 def get_day_vectors(date_obj):
-    year, month, day = date_obj.year, date_obj.month, date_obj.day
+
+    """Returns a 2-part dictionary of u and v vectors for a given date, on 361x361 25 km EASE grid"""
 
     day_of_year = date_obj.timetuple().tm_yday
 
@@ -45,6 +56,11 @@ def get_day_vectors(date_obj):
 
 
 def one_iteration(point, field, tree, timestep):
+
+    """Iterates a point based on its position in an ice motion field. Must be passed a pre-calculated KDTree
+    of the field (which saves time). Timestep must be in seconds, field vectors must be in cm/s. If the point's
+    nearest velocity value is nan (representing open water), then it returns a nan point (np.nan, np.nan)"""
+
     distance, index = tree.query(point)
 
     u_vels, v_vels = np.array(field['u']) / 100, np.array(field['v']) / 100
